@@ -3,12 +3,36 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+
 // components
 import { GetServerSideProps, GetStaticProps } from 'next'
 import Products from '../components/Products'
 
 
+const QUERY = gql`
+  {
+    products {
+      items {
+        name
+        description
+        id
+        assets {
+          source
+        }
+      }
+    }
+  }
+`;
+
+
 const Home: NextPage = ({propData}) => {
+
+  const { loading, data } = useQuery(QUERY);
+  console.log(data);
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,8 +48,8 @@ const Home: NextPage = ({propData}) => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <Products propData={propData}/>
-        
+        {/* loading || !data? 'loading...' : <Products propData={data} /> client-side rendering */}
+        <Products propData={propData.data} />
       </main>
     </div>
   )
@@ -54,8 +78,7 @@ export const getStaticProps: GetStaticProps  = async () => {
   });
 
   const propData = await res.json()
-  //const data = ["hello"]
-  console.log('D A T A ----', propData.data.products.items);
+  console.log(propData.data.products.items);
 
   if (!propData) {
     return {

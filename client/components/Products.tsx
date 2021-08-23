@@ -1,9 +1,10 @@
 import ProductCard from "./ProductCard"
 
 function Products({propData}) {
+
   return(
       <div className="container">
-        {propData.data.products.items.map(x => <ProductCard product={x} />)}
+        {propData.products.items.map(x => <ProductCard product={x} />)}
       </div>
   )
 }
