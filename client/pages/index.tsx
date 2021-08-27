@@ -1,28 +1,20 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 
-import { initializeApollo, addApolloState } from '../lib/apolloClient'
+import { GetServerSideProps, GetStaticProps } from 'next'
 
-// import gql from 'graphql-tag';
-// import { useQuery } from '@apollo/react-hooks';
 
-import { gql } from "@apollo/client";
-import client from "../lib/apollo-client";
+import { gql, useQuery } from "@apollo/client";
+import { initializeApollo, addApolloState } from "../lib/apolloClient";
 
 // components
-import { GetServerSideProps, GetStaticProps } from 'next'
 import Products from '../components/Products'
+import styles from '../styles/Home.module.css'
 
 
-const Home: NextPage = ({propData}) => {
-  // for CSR
-  //const { loading, data } = useQuery(QUERY);
-  //console.log(data);
-
-  console.log(propData)
-
+const Home: NextPage = () => {
+    const { loading, error, data } = useQuery(QUERY);
 
   return (
     <div className={styles.container}>
@@ -38,10 +30,8 @@ const Home: NextPage = ({propData}) => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        {/* client-side rendering */}
-        {/* loading || !data? 'loading...' : <Products propData={data} /> */}
 
-        <Products propData={propData.data} />
+        <Products productsData={data} />
 
       </main>
     </div>
@@ -56,6 +46,10 @@ const QUERY = gql`
         name
         description
         id
+        variants{
+            price
+            name
+        }
         assets {
           source
         }
@@ -64,73 +58,17 @@ const QUERY = gql`
   }
 `;
 
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const apolloClient = initializeApollo()
-
-//   await apolloClient.query({
-//     query: QUERY
-//   })
-
-//   return addApolloState(apolloClient, {
-//     props: { },
-//   })
-// }
-
-
-export const getStaticProps: GetStaticProps = async () => {
-  const propData  = await client.query({
-    query: QUERY
-  });
-
-  if (!propData) {
-    return {
-      notFound: true,
-    }
+export async function getStaticProps(context: GetStaticPropsContext) {
+    const apolloClient = initializeApollo();
+  
+    await apolloClient.query({
+      query: QUERY,
+    });
+  
+    return addApolloState(apolloClient, {
+      props: {},
+    });
   }
 
-  return {
-    props: { propData }, // will be passed to the page component as props
-  }
-}
-
-
-// -- vanilla fetch or axios -- //
-
-// export const getStaticProps: GetStaticProps  = async () => {
-//   const res = await fetch('http://localhost:5000/shop-api', 
-//   {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({query: `
-//     query{
-//       products{
-//         items{
-//           name
-//           description
-//           id
-//           assets{
-//             source
-//           }
-//         }
-//       }
-//     }`}),
-//   });
-
-//   const propData = await res.json()
-//   //console.log(propData.data.products.items);
-
-//   if (!propData) {
-//     return {
-//       notFound: true,
-//     }
-//   }
-
-//   return {
-//     props: { propData }, // will be passed to the page component as props
-//   }
-// }
 
 export default Home
