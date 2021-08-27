@@ -10,6 +10,7 @@ let apolloClient
 
 function createApolloClient() {
   return new ApolloClient({
+    connectToDevTools: true,
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
       uri: 'https://nextjs-graphql-with-prisma-simple.vercel.app/api', // Server URL (must be absolute)
