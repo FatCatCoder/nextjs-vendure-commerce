@@ -2,11 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { GetServerSideProps, GetStaticProps } from 'next'
-
 
 import { gql, useQuery } from "@apollo/client";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
+import { GetStaticPaths, GetStaticProps } from 'next'
 
 // components
 import Products from '../components/Products'
@@ -14,7 +13,7 @@ import styles from '../styles/Home.module.css'
 
 
 const Home: NextPage = () => {
-    const { loading, error, data } = useQuery(QUERY);
+    const { loading, error, data } = useQuery(ALL_PRODUCTS_QUERY);
 
   return (
     <div className={styles.container}>
@@ -26,9 +25,9 @@ const Home: NextPage = () => {
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"/>
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+      <main className="container-fluid text-center">
+        <h1 className="display-1">
+          Welcome to nextjs-vendure-ecommerce!
         </h1>
 
         <Products productsData={data} />
@@ -39,7 +38,7 @@ const Home: NextPage = () => {
 }
 
 
-const QUERY = gql`
+const ALL_PRODUCTS_QUERY = gql`
   {
     products {
       items {
@@ -58,11 +57,13 @@ const QUERY = gql`
   }
 `;
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+
+//export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps= async () => {
     const apolloClient = initializeApollo();
   
     await apolloClient.query({
-      query: QUERY,
+      query: ALL_PRODUCTS_QUERY,
     });
   
     return addApolloState(apolloClient, {

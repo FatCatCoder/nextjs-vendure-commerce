@@ -13,7 +13,7 @@ function createApolloClient() {
     connectToDevTools: true,
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
-      uri: 'http://localhost:5000/shop-api?languageCode=en_US', // Server URL (must be absolute)
+      uri: 'http://localhost:5000/shop-api', // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache({
