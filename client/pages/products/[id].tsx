@@ -8,24 +8,37 @@ import { gql, useQuery } from "@apollo/client";
 import { initializeApollo, addApolloState } from "../../lib/apolloClient";
 import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next'
 import client from '../../lib/apollo-client';
+import { getVariableValues } from 'graphql/execution/values';
 
 
 const product: NextPage = (context) => {
+  const router = useRouter();
   console.log('H EL P JDI JD', context)
+  const apolloClient = initializeApollo();
+  const state = apolloClient.extract();
+  console.log('STATE', state, router.query.id)
   
-    /*
-    const { loading, error, data } = useQuery(PRODUCT_QUERY);
+    
+    const { loading, error, data } = useQuery(PRODUCT_QUERY, {variables: {id: router.query.id}});
 
     if(loading){return <div>Loading...</div>}
     if(error){console.log(error.networkError.result.errors)}
     console.log('product SLUG', data)
-    */
+    
 
     return (
+      <>
+      {/*
         <div>
             <h1 className="display-1">You are Viewing product {context.['__APOLLO_STATE__'].['Product:5'].id}</h1>
             <p>{context.['__APOLLO_STATE__'].['Product:5'].name}</p>
         </div>
+      */}
+      <div>
+          <h1 className="display-1">You are Viewing product {data.product.name}</h1>
+      </div>
+      </>
+      
   )
 }
 
