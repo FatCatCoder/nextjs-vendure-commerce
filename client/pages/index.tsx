@@ -30,7 +30,9 @@ const Home: NextPage = () => {
           Welcome to nextjs-vendure-ecommerce!
         </h1>
 
-        <Products productsData={data} />
+        <div className="container mx-auto">
+          <Products productsData={data} />
+        </div>
 
       </main>
     </div>

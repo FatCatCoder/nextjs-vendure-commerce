@@ -1,3 +1,4 @@
+import styles from '../styles/ProductPage.module.css'
 import Image from 'next/image'
 
 interface Product{
@@ -10,11 +11,18 @@ interface Product{
     assets: Array<source>
 }
 
-function ProductCard({productData}: {productData: Product}) {
+function ProductPage({productData}: {productData: Product}) {
     //console.log(productData)
     return(
-        <div className="col">
-            <a className="card h-100" href={`/products/${productData.id}`}>
+        <div className="container">
+            <div className="row">
+                <div className="col-6">
+                    <img src={productData.assets[0].source} className={styles.productImg} alt="..." />
+                </div>
+                <div className="col-6"></div>
+            </div>
+            {/*
+            <div className="card" href={`/products/${productData.id}`}>
                 <img src={productData.assets[0].source} className="card-img-top img-fluid" alt="..." />
                 <div className="card-body">
                     <h2 className="card-title text-center">{productData.name}</h2>
@@ -22,10 +30,11 @@ function ProductCard({productData}: {productData: Product}) {
                     <div className="card-text text-center">${productData.variants[0].price}</div>
                     <p className="card-text text-muted">id: {productData.id}</p>
                 </div>
-            </a>
+            </div>
+            */}
         </div>
     )
   }
   
-  export default ProductCard
+  export default ProductPage
   

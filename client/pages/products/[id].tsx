@@ -6,12 +6,12 @@ import {useRouter} from 'next/router';
 
 import { gql, useQuery } from "@apollo/client";
 import { initializeApollo, addApolloState } from "../../lib/apolloClient";
-import { GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next'
-import client from '../../lib/apollo-client';
-import { getVariableValues } from 'graphql/execution/values';
+import { GetStaticPaths, GetStaticProps } from 'next'
+
+import ProductPage from '../../components/ProductPage';
 
 
-const product: NextPage = (context) => {
+const Product: NextPage = (context) => {
   const router = useRouter();
   console.log('H EL P JDI JD', context)
   const apolloClient = initializeApollo();
@@ -34,8 +34,9 @@ const product: NextPage = (context) => {
             <p>{context.['__APOLLO_STATE__'].['Product:5'].name}</p>
         </div>
       */}
-      <div>
+      <div className="container">
           <h1 className="display-1">You are Viewing product {data.product.name}</h1>
+          <ProductPage productData={data.product} />
       </div>
       </>
       
@@ -96,8 +97,8 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     return { paths, fallback: false }
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
-    //export const getStaticProps: GetStaticProps = async (context) => {
+//export async function getStaticProps(context: GetStaticPropsContext) {
+    export const getStaticProps: GetStaticProps = async (context) => {
         const apolloClient = initializeApollo();
         const {id} = context.params!;
         console.log('my id' , id);
@@ -118,4 +119,4 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     
 
 
-export default product
+export default Product
