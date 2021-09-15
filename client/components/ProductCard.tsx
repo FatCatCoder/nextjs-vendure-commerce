@@ -1,14 +1,8 @@
 import Image from 'next/image'
+import {Product} from '../types/types';
 
-interface Product{
-    name: string,
-    description: string,
-    price: number,
-    id: string,
-    source: string
-    variants: Array<price>,
-    assets: Array<source>
-}
+
+
 
 function ProductCard({productData}: {productData: Product}) {
     //console.log(productData)

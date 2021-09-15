@@ -1,15 +1,7 @@
 import styles from '../styles/ProductPage.module.css'
+import {Product} from '../types/types';
 import Image from 'next/image'
 
-interface Product{
-    name: string,
-    description: string,
-    price: number,
-    id: string,
-    source: string
-    variants: Array<price>,
-    assets: Array<source>
-}
 
 function ProductPage({productData}: {productData: Product}) {
     //console.log(productData)
