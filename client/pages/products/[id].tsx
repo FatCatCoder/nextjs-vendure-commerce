@@ -12,12 +12,9 @@ import ProductPage from '../../components/ProductPage';
 
 
 const Product: NextPage = (context) => {
-  const router = useRouter();
-  console.log('H EL P JDI JD', context)
-  const apolloClient = initializeApollo();
-  const state = apolloClient.extract();
-  console.log('STATE', state, router.query.id)
-  
+    const router = useRouter();
+    const apolloClient = initializeApollo();
+    const state = apolloClient.extract();
     
     const { loading, error, data } = useQuery(PRODUCT_QUERY, {variables: {id: router.query.id}});
 
@@ -52,6 +49,8 @@ const ALL_PRODUCTS_QUERY = gql`
         description
         id
         variants{
+            languageCode
+          	currencyCode
             price
             name
         }
@@ -70,6 +69,8 @@ const PRODUCT_QUERY = gql`
       name
       description
       variants{
+        languageCode
+        currencyCode
         price
         name
       }

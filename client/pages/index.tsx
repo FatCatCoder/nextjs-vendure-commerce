@@ -48,6 +48,8 @@ const ALL_PRODUCTS_QUERY = gql`
         description
         id
         variants{
+            languageCode
+            currencyCode
             price
             name
         }
