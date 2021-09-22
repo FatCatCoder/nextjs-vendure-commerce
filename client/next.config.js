@@ -8,4 +8,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['localhost:5000/shop-api']
+  }
 }
