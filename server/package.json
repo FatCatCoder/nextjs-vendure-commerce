@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vendure/admin-ui-plugin": "1.1.4",
-    "@vendure/asset-server-plugin": "1.1.4",
+    "@vendure/asset-server-plugin": "^1.2.1",
     "@vendure/core": "1.1.4",
     "@vendure/email-plugin": "1.1.4",
     "pg": "8.7.1",
