@@ -1,8 +1,6 @@
 import ProductCard from "./ProductCard"
 import {ProductsList} from '../types/types';
 
-
-
 function Products({productsData}: {productsData: ProductsList}) {
   console.log(productsData);
 

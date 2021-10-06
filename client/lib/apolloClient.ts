@@ -22,6 +22,12 @@ function createApolloClient() {
         Query: {
           fields: {
             posts: relayStylePagination(),
+            product(_, { args, toReference }) {
+              return toReference({
+                __typename: 'Product',
+                id: args?.id,
+              });
+            }
           },
         },
       },

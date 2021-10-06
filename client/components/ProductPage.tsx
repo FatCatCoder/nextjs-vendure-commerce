@@ -2,9 +2,7 @@ import styles from '../styles/ProductPage.module.css'
 import {Product} from '../types/types';
 import Image from 'next/image'
 
-
 function ProductPage({productData}: {productData: Product}) {
-    //console.log(productData)
     return(
         <div className="container">
             <div className="row">
