@@ -17,18 +17,14 @@ function createApolloClient() {
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache({
-      // typePolicies is not required to use Apollo with Next.js - only for doing pagination.
       typePolicies: {
-        Query: {
-          fields: {
-            posts: relayStylePagination(),
-            product(_, { args, toReference }) {
-              return toReference({
-                __typename: 'Product',
-                id: args?.id,
-              });
-            }
-          },
+        Products: {
+          keyFields: ["id"],
+          merge: true
+        },
+        Product: {
+          keyFields: ["id"],
+          merge: true
         },
       },
     }),

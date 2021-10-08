@@ -1,3 +1,4 @@
+// @refresh reset
 import { AppContext, AppInitialProps } from 'next/app'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apolloClient'
@@ -13,14 +14,3 @@ export default function App({ Component, pageProps }: AppContext & AppInitialPro
     </ApolloProvider>
   )
 }
-
-
-
-// old
-// import type { AppProps } from 'next/app'
-// import withApollo from '../lib/apollo';
-
-// function MyApp({ Component, pageProps }: AppProps) {
-//   return <Component {...pageProps} />
-// }
-// export default withApollo(MyApp)

@@ -1,11 +1,11 @@
+// @refresh reset
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-
-
 import { gql, useQuery } from "@apollo/client";
 import { initializeApollo, addApolloState } from "../lib/apolloClient";
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { ALL_PRODUCTS_QUERY } from '../utils/graphql/queries'
 
 // components
 import Products from '../components/Products'
@@ -13,7 +13,9 @@ import styles from '../styles/Home.module.css'
 
 
 const Home: NextPage = () => {
-    const { loading, error, data } = useQuery(ALL_PRODUCTS_QUERY);
+  const { loading, error, data } = useQuery(ALL_PRODUCTS_QUERY);
+    if(loading){return <div>Loading...</div>}
+      if(error){console.log(error?.networkError)}
 
   return (
     <div className={styles.container}>
@@ -39,31 +41,7 @@ const Home: NextPage = () => {
   )
 }
 
-
-const ALL_PRODUCTS_QUERY = gql`
-  {
-    products {
-      items {
-        name
-        description
-        id
-        variants{
-            languageCode
-            currencyCode
-            price
-            name
-        }
-        assets {
-          source
-        }
-      }
-    }
-  }
-`;
-
-
-//export async function getStaticProps(context: GetStaticPropsContext) {
-export const getStaticProps: GetStaticProps= async () => {
+export const getStaticProps: GetStaticProps = async () => {
     const apolloClient = initializeApollo();
   
     await apolloClient.query({

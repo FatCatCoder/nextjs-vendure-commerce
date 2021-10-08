@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+
 export const ALL_PRODUCTS_QUERY = gql`
 query Products {
   products {
@@ -22,7 +23,7 @@ query Products {
 `;
 
 export const PRODUCT_QUERY = gql`
-query product($id: ID!){
+query Product($id: ID!){
   product(id: $id){
     id
     name
@@ -35,6 +36,18 @@ query product($id: ID!){
     }
     assets{
       source
+    }
+  }
+}
+`;
+
+export const PRODUCT__REFETCH_QUERY = gql`
+query Product($id: ID!){
+  product(id: $id){
+    variants{
+      languageCode
+      currencyCode
+      price
     }
   }
 }
