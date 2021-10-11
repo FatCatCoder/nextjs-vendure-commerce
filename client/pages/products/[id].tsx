@@ -1,4 +1,4 @@
-// @refresh reset
+
 import type { NextPage } from 'next'
 import {useRouter} from 'next/router';
 import { useQuery } from "@apollo/client";
@@ -7,15 +7,15 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 
 // components
 import ProductPageTemplate from '../../components/ProductPageTemplate';
-import { ALL_PRODUCTS_QUERY, PRODUCT_QUERY, PRODUCT_REFETCH_QUERY, ALL_PRODUCTS_REFETCH_QUERY } from '../../utils/graphql/queries';
+import { ALL_PRODUCTS_QUERY, PRODUCT_QUERY } from '../../utils/graphql/queries';
 import { Product } from '../../types/product';
 
 const ProductPage: NextPage = (context) => {
     const router = useRouter();
     const apolloClient = initializeApollo();
     const state = apolloClient.extract();
-    console.log(state)
-    console.log(context)
+    // console.log(state)
+    // console.log(context)
 
     // const { loading, error, data } = useQuery(ALL_PRODUCTS_REFETCH_QUERY);
     //   if(loading){return <div>Loading...</div>}
@@ -23,9 +23,25 @@ const ProductPage: NextPage = (context) => {
     
     const { loading, error, data } = useQuery(PRODUCT_QUERY, {variables: {id: router.query.id}});
       if(loading){return <div>Loading...</div>}
-        if(error){console.log(error?.networkError)}
+        if(error){return <div>{error?.networkError}</div>}
 
-      console.log(data)
+    const all_products = apolloClient.readQuery({query: ALL_PRODUCTS_QUERY});
+
+    const update_cache = apolloClient.writeQuery(
+      {
+        query: PRODUCT_QUERY,
+        variables: {id: router.query.id},
+        data: {
+          products: [
+            ...all_products?.products?.items, data
+          ]
+        }
+      } 
+      );
+
+      console.log('data ', data);
+      console.log('readQuery ', all_products);
+      console.log('updatedCache', update_cache);
 
     return (
       <>
