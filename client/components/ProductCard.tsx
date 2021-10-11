@@ -5,7 +5,7 @@ import formatCurrency from '../utils/formatCurrency'
 
 
 function ProductCard({productData}: {productData: Product}) {
-    console.log(productData)
+    console.log('ProductCard.tsx', productData)
     return(
         <div className="col">
             <a className="card h-100" href={`/products/${productData.id}`}>
